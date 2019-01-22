@@ -1,6 +1,8 @@
 package com.spring.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 
     @Autowired
-    private Person person;
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("context.xml");
+    private Person person = (Person) ctx.getBean("person");
 
     @RequestMapping("/")
     public String healthCheck() {

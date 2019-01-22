@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.spring.app.*"/>
+
+    <aop:config>
+        <aop:aspect id="log" ref="loggerAspect">
+            <aop:pointcut expression="execution(* com.spring.app.Person.*(..))" id="getNamePointcut"/>
+            <aop:before pointcut-ref="getNamePointcut" method="start"/>
+            <aop:after pointcut-ref="getNamePointcut" method="end"/>
+            <aop:after-returning pointcut-ref="getNamePointcut" returning="obj" method="printValue"/>
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="loggerAspect" class="com.spring.app.LoggerAspect"></bean>
+    <bean id="person" class="com.spring.app.Person"></bean>
+</beans>
